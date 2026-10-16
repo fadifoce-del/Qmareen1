@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>RogueByte - Web Payload Sender</title>
+  <title>Qmareen Center - Web Payload Sender</title>
+  <meta name="author" content="Qmareen Center">
+  <meta name="copyright" content="© 2026 Qmareen Center">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -129,7 +131,7 @@
       z-index: 2;
       max-width: 680px;
       margin: 40px auto;
-      padding: 0 20px;
+      padding: 0 20px 80px;
     }
 
     /* Card */
@@ -361,6 +363,28 @@
     .log-ok { color: var(--emerald); font-weight: 700; }
     .log-bad { color: var(--ruby); font-weight: 700; }
     .log-info { color: var(--cyan); }
+
+    /* Footer copyright */
+    #copyright {
+      position: fixed;
+      bottom: 14px;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #3a4352;
+      pointer-events: none;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.08);
+    }
+    #copyright span {
+      color: var(--cyan);
+      text-shadow: 0 0 14px var(--cyan-glow);
+      font-weight: 800;
+    }
   </style>
 </head>
 <body>
@@ -369,8 +393,8 @@
 
   <header id="brand">
     <div class="brand-left">
-      <img src="logo_RogueByte.png" alt="RogueByte" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'46\' fill=\'%230a101e\' stroke=\'%2300f0ff\' stroke-width=\'4\'/%3E%3Cpath d=\'M30 35 L70 35 L70 50 L45 50 L68 75 L50 75 L30 54 Z\' fill=\'%2300f0ff\'/%3E%3C/svg%3E';" />
-      <span class="brand-title">RogueByte</span>
+      <img src="logo_qmareen.png" alt="Qmareen Center" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'46\' fill=\'%230a101e\' stroke=\'%2300f0ff\' stroke-width=\'4\'/%3E%3Cpath d=\'M30 35 L70 35 L70 50 L45 50 L68 75 L50 75 L30 54 Z\' fill=\'%2300f0ff\'/%3E%3C/svg%3E';" />
+      <span class="brand-title">QMAREEN</span>
       <span class="brand-tag">BinLoader Client</span>
     </div>
     <a href="index.html" class="nav-link">&larr; Back to Host</a>
@@ -458,6 +482,8 @@
     </div>
   </main>
 
+  <footer id="copyright">© 2026 <span>QMAREEN CENTER</span> · All rights reserved</footer>
+
   <script>
     (function () {
       const ipInput = document.getElementById("ps4-ip");
@@ -472,10 +498,10 @@
       let customBlob = null;
 
       // Load saved IP & Port
-      const savedIP = localStorage.getItem("roguebyte_ps4_ip");
+      const savedIP = localStorage.getItem("qmareen_ps4_ip");
       if (savedIP) ipInput.value = savedIP;
 
-      const savedPort = localStorage.getItem("roguebyte_ps4_port");
+      const savedPort = localStorage.getItem("qmareen_ps4_port");
       if (savedPort) portInput.value = savedPort;
 
       // Port Presets
@@ -553,8 +579,8 @@
           return;
         }
 
-        localStorage.setItem("roguebyte_ps4_ip", ip);
-        localStorage.setItem("roguebyte_ps4_port", port);
+        localStorage.setItem("qmareen_ps4_ip", ip);
+        localStorage.setItem("qmareen_ps4_port", port);
 
         const selectedType = document.querySelector('input[name="payload_type"]:checked').value;
         let payloadData = null;
@@ -582,7 +608,7 @@
 
           // Send raw binary to PS4 via fetch POST
           const targetUrl = `http://${ip}:${port}/`;
-          
+
           try {
             await fetch(targetUrl, {
               method: "POST",
