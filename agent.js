@@ -1,5 +1,6 @@
 /**
- * RogueByte Browser-Native Dev Agent (agent.js)
+ * Qmareen Browser-Native Dev Agent (agent.js)
+ * © 2026 Qmareen Center — All rights reserved
  * =========================================================================
  * يعيش داخل المتصفح مع jb.js في الوقت الفعلي.
  * يراقب سير عملية الجيلبريك، يضبط التوقيتات تكيفياً (Adaptive Timing)،
@@ -146,8 +147,8 @@
       short: 'Storage',
       test: () => {
         try {
-          localStorage.setItem('__rb_test', '1');
-          localStorage.removeItem('__rb_test');
+          localStorage.setItem('__qm_test', '1');
+          localStorage.removeItem('__qm_test');
           return true;
         } catch (e) {
           return false;
@@ -425,7 +426,7 @@
       <div id="__ag-head">
         <div id="__ag-head-left">
           <span id="__ag-dot"></span>
-          <span>Rogue Agent</span>
+          <span>Qmareen Agent</span>
         </div>
         <div id="__ag-head-meta">
           <span id="__ag-timer">00:00</span>
@@ -649,7 +650,7 @@
         setTimeout(() => {
           if (_state.retryCount <= AGENT_CFG.maxRetries) {
             _agLog('AGENT-SOFT-RETRY', `Attempt ${_state.retryCount}`, 'fix');
-            try { sessionStorage.removeItem('__rb_temp'); } catch (e) {}
+            try { sessionStorage.removeItem('__qm_temp'); } catch (e) {}
             location.reload();
           } else {
             _onExhausted();
@@ -758,127 +759,3 @@ Provide 1-line root cause, 1-line action, and probability of success on next ret
       mode: 'cors'
     })
       .then(r => r.json())
-      .then(resp => {
-        const msg = (resp.message && resp.message.content) || '';
-        if (msg) {
-          _agLog('AGENT-AI', msg.slice(0, 140), 'fix');
-          _hudSetStatus('AI: ' + msg.slice(0, 100));
-        }
-      })
-      .catch(() => {
-        _agLog('AGENT-AI', `Local Qwen offline — using Built-in Heuristics`, 'warn');
-      });
-  }
-
-  // ── 13. التقاط الأخطاء العامة للمتصفح ──────────────────────────────────
-  window.addEventListener('error', function (e) {
-    const msg = `${e.message} @ ${e.filename || 'script'}:${e.lineno || 0}`;
-    _agLog('AGENT-ERR', msg, 'fail');
-    _onFailureDetected('THREW', msg);
-  });
-
-  window.addEventListener('unhandledrejection', function (e) {
-    const msg = String(e.reason ? (e.reason.message || e.reason) : 'Unknown Promise Rejection');
-    _agLog('AGENT-REJECT', msg, 'fail');
-    _onFailureDetected('THREW_PROMISE', msg);
-  });
-
-  // ── 14. مراقبة تغيرات الصفحة (DOM Class Observer) ───────────────────────
-  function _watchBodyClass() {
-    const mo = new MutationObserver(function () {
-      const cls = document.body.className;
-      if (cls === 'done') {
-        if (_state.stallTimer) clearTimeout(_state.stallTimer);
-        _state.phase = 'SUCCESS';
-        _agLog('AGENT-SUCCESS', 'Exploit finished with SUCCESS status', 'ok');
-        _hudSetPhase('SUCCESS', 'ok');
-        _hudSetStatus('Jailbreak execution complete!');
-        _hudSetRetry('');
-        const dot = document.getElementById('__ag-dot');
-        if (dot) {
-          dot.style.background = '#00ffa3';
-          dot.style.boxShadow = '0 0 14px #00ffa3';
-        }
-      } else if (cls === 'fail') {
-        if (_state.phase === 'SUCCESS') return;
-        _agLog('AGENT-FAIL', 'body.fail detected from finishUI(false)', 'fail');
-        _onFailureDetected('finishUI:FAIL', 'Exploit signaled termination failure');
-      }
-    });
-    mo.observe(document.body, { attributes: true, attributeFilter: ['class'] });
-  }
-
-  // ── 15. واجهة الربط المباشرة مع jb.js ─────────────────────────────────
-  window.__agentMark = function (tag, detail) {
-    _state.lastMarkTime = Date.now();
-    _resetStallTimer();
-
-    if (_state.phase === 'IDLE' || _state.phase === 'READY' || _state.phase === 'RETRYING') {
-      _state.phase = 'RUNNING';
-      _state.startTime = _state.startTime || Date.now();
-      _hudSetPhase('RUNNING', '');
-      _hudSetStatus(`Executing stage: ${tag}`);
-    }
-
-    const cls = _tagClass(tag);
-    _agLog(tag, detail, cls);
-
-    if (BAD_RE.test(tag) || BAD_RE.test(detail)) {
-      _onFailureDetected(tag, detail);
-    } else if (DONE_RE.test(tag) || DONE_RE.test(detail)) {
-      _state.phase = 'SUCCESS';
-      _hudSetPhase('SUCCESS', 'ok');
-      _hudSetStatus('Kernel privileges achieved successfully!');
-    }
-  };
-
-  window.__agentDump = function () {
-    return {
-      phase: _state.phase,
-      retries: _state.retryCount,
-      timing: window.__agentTiming || {},
-      failures: _state.failureLog,
-      preflightPassed: _state.preflightPassed,
-      elapsedSec: _state.startTime ? Math.round((Date.now() - _state.startTime) / 1000) : 0,
-      events: _state.eventLog,
-      config: AGENT_CFG,
-    };
-  };
-
-  // ── 16. التهيئة والتشغيل (Bootstrap) ──────────────────────────────────
-  function _bootstrap() {
-    try {
-      const saved = parseInt(sessionStorage.getItem('__ag_retries') || '0', 10);
-      _state.retryCount = isNaN(saved) ? 0 : saved;
-      if (_state.retryCount > 0) {
-        _agLog('AGENT-RESUME', `Session attempt ${_state.retryCount}/${AGENT_CFG.maxRetries}`, 'fix');
-      }
-    } catch (e) {}
-
-    window.addEventListener('beforeunload', function () {
-      try {
-        sessionStorage.setItem('__ag_retries', String(_state.retryCount));
-      } catch (e) {}
-    });
-
-    const initHud = () => {
-      _createHud();
-      _watchBodyClass();
-      _agLog('AGENT-INIT', 'Rogue Agent ready & watching', 'ok');
-      _hudSetPhase('READY', '');
-      _hudSetStatus('Running preflight checks and memory benchmark...');
-      _runPreflight();
-      _runBenchmarkAndSanitize();
-      _hudSetStatus('Ready. Awaiting payload bootstrap...');
-    };
-
-    if (document.body) {
-      initHud();
-    } else {
-      document.addEventListener('DOMContentLoaded', initHud);
-    }
-  }
-
-  _bootstrap();
-
-})();
