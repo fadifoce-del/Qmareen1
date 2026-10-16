@@ -3,7 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>RogueByte - Jailbreak Execution</title>
+  <title>Qmareen Center - Jailbreak Execution</title>
+  <meta name="author" content="Qmareen Center">
+  <meta name="copyright" content="© 2026 Qmareen Center">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
 
@@ -506,6 +508,29 @@
     body.log #wrap {
       display: block;
     }
+
+    /* Footer copyright */
+    #copyright {
+      position: fixed;
+      bottom: 14px;
+      left: 0;
+      right: 0;
+      z-index: 15;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: #3a4352;
+      pointer-events: none;
+      text-shadow: 0 0 12px rgba(0, 240, 255, 0.08);
+    }
+
+    #copyright span {
+      color: var(--cyan);
+      text-shadow: 0 0 14px var(--cyan-glow);
+      font-weight: 800;
+    }
   </style>
 </head>
 
@@ -515,10 +540,10 @@
 
   <header id="brand">
     <div class="logo-wrap">
-      <img src="logo_RogueByte.png" alt="RogueByte" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'46\' fill=\'%230a101e\' stroke=\'%2300f0ff\' stroke-width=\'4\'/%3E%3Cpath d=\'M30 35 L70 35 L70 50 L45 50 L68 75 L50 75 L30 54 Z\' fill=\'%2300f0ff\'/%3E%3C/svg%3E';">
+      <img src="logo_qmareen.png" alt="Qmareen Center" onerror="this.onerror=null; this.src='data:image/svg+xml,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'%3E%3Ccircle cx=\'50\' cy=\'50\' r=\'46\' fill=\'%230a101e\' stroke=\'%2300f0ff\' stroke-width=\'4\'/%3E%3Cpath d=\'M30 35 L70 35 L70 50 L45 50 L68 75 L50 75 L30 54 Z\' fill=\'%2300f0ff\'/%3E%3C/svg%3E';">
     </div>
     <div class="brand-text">
-      <b>RogueByte</b>
+      <b>QMAREEN</b>
       <span class="tag">Jailbreak Engine</span>
     </div>
   </header>
@@ -568,7 +593,9 @@
     </div>
   </div>
 
-  <!-- RogueByte Browser Agent — real-time exploit monitor & self-healer -->
+  <footer id="copyright">© 2026 <span>QMAREEN CENTER</span> · All rights reserved</footer>
+
+  <!-- Qmareen Browser Agent — real-time exploit monitor & self-healer -->
   <script src="agent.js"></script>
 
   <script type="module">
