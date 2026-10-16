@@ -4,7 +4,9 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
-    <title>RogueByte</title>
+    <title>Qmareen Center</title>
+    <meta name="author" content="Qmareen Center">
+    <meta name="copyright" content="© 2026 Qmareen Center">
 
     <style>
         *,
@@ -241,20 +243,42 @@
             color: #ffab40;
             text-shadow: 0 0 10px rgba(255, 171, 64, 0.25);
         }
+
+        #copyright {
+            position: fixed;
+            bottom: 14px;
+            left: 0;
+            right: 0;
+            z-index: 2;
+            text-align: center;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.22em;
+            text-transform: uppercase;
+            color: #3a4352;
+            pointer-events: none;
+            text-shadow: 0 0 12px rgba(0, 229, 255, 0.08);
+        }
+
+        #copyright span {
+            color: #00e5ff;
+            text-shadow: 0 0 14px rgba(0, 229, 255, 0.35);
+            font-weight: 800;
+        }
     </style>
 </head>
 
 <body>
 
-    <!-- RogueByte branding -->
+    <!-- Qmareen Center branding -->
     <div id="brand">
         <img
-            src="logo_RogueByte.png"
-            alt="Rogue Byte Logo"
+            src="logo_qmareen.png"
+            alt="Qmareen Center Logo"
             width="38"
             height="38"
         >
-        <b>RogueByteV1.0</b>
+        <b>QMAREEN V1.0</b>
         <a href="sender.html" id="sender-link" title="Web BinLoader Payload Sender">Payload Sender &rarr;</a>
     </div>
 
@@ -263,6 +287,8 @@
         <div id="det"></div>
         <div id="cache"></div>
     </div>
+
+    <footer id="copyright">© 2026 <span>QMAREEN CENTER</span> · All rights reserved</footer>
 
     <script>
         (function () {
